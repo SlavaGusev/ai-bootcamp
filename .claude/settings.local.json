@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:3000/health)",
+      "Bash(curl -s -X POST http://localhost:3000/login -H 'Content-Type: application/json' -d '{\"email\":\"test@test.com\",\"password\":\"password123\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/login -H 'Content-Type: application/json' -d '{\"email\":\"test@test.com\",\"password\":\"wrongpass\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/login -H 'Content-Type: application/json' -d '{\"email\":\"notfound@test.com\",\"password\":\"password123\"}')",
+      "Bash(curl -s -X POST http://localhost:3000/login -H 'Content-Type: application/json' -d '{\"email\":\"blocked@test.com\",\"password\":\"password123\"}')"
+    ]
+  }
+}

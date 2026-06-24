@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  auth-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auth-service
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount database file for persistence
+      - ./database.sqlite:/app/database.sqlite
+      # Mount logs directory for easy access
+      - ./logs:/app/logs
+    environment:
+      NODE_ENV: production
+      LOG_LEVEL: info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+
+  auth-service-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test-runner
+    environment:
+      CI: "1"
+      PORT: "3100"
+    profiles:
+      - test
+
+volumes:
+  auth-service-db:
+    driver: local
